@@ -34,7 +34,15 @@ const nextConfig: NextConfig = {
   // Don't announce "Next.js" in every answer.
   poweredByHeader: false,
   headers() {
-    return [{ source: "/:path*", headers: SECURITY_HEADERS }];
+    return [
+      { source: "/:path*", headers: SECURITY_HEADERS },
+      // Email links carry a token in ?token=: no referrer at all from these
+      // pages. Listed last, so this value overrides the one above.
+      ...["/verify-email", "/set-password"].map((source) => ({
+        source,
+        headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+      })),
+    ];
   },
   // No rewrites: /api/* is forwarded by the Route Handler in
   // app/api/[...path]/route.ts, which adds the proxy secret (a rewrite cannot
