@@ -34,11 +34,11 @@ export const metadata: Metadata = {
   // them again after a change: bump it with the files.
   icons: {
     icon: [
-      { url: "/icon-32.png?v=1", sizes: "32x32", type: "image/png" },
-      { url: "/icon-192.png?v=1", sizes: "192x192", type: "image/png" },
+      { url: "/icon-32.png?v=2", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png?v=2", sizes: "192x192", type: "image/png" },
     ],
-    shortcut: "/favicon.ico?v=1",
-    apple: [{ url: "/apple-touch-icon.png?v=1", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico?v=2",
+    apple: [{ url: "/apple-touch-icon.png?v=2", sizes: "180x180", type: "image/png" }],
   },
 };
 

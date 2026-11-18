@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
-import { Heart } from "lucide-react"
 import { cn } from "cn"
+import { PulseLogo } from "@/components/brand/pulse-logo"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -37,20 +37,13 @@ export function LinkButton({
 }
 
 /**
- * The page heading (Spine's AuthHeader): the Pulse logo in a 52 px rounded
- * tile, a big title and a gray line under it. The logo is lucide's heart, the
- * same glyph as the app icon in public/.
+ * The page heading (Spine's AuthHeader): the Pulse logo (mark + word), a big
+ * title and a gray line under it.
  */
 export function AuthHeader({ title, subtitle }: { title: string; subtitle?: ReactNode }) {
   return (
     <header className="flex flex-col items-center text-center">
-      <span
-        role="img"
-        aria-label="Pulse"
-        className="flex size-[52px] items-center justify-center rounded-[14px] bg-(--sp-panel) text-(--sp-text)"
-      >
-        <Heart aria-hidden className="size-6" strokeWidth={1.9} />
-      </span>
+      <PulseLogo />
       <h1 className="mt-10 font-heading text-[1.8125rem] leading-tight font-medium">{title}</h1>
       {subtitle && <p className="mt-2 text-[0.8125rem] leading-snug text-(--sp-text-muted)">{subtitle}</p>}
     </header>

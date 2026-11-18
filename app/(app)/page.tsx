@@ -4,6 +4,7 @@ import Link from "next/link"
 import { requireUser } from "@/lib/auth"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SignOutButton } from "@/components/auth/sign-out-button"
+import { PulseLogo } from "@/components/brand/pulse-logo"
 
 export const metadata: Metadata = { title: "Home" }
 
@@ -16,7 +17,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-sm font-semibold tracking-wide text-muted-foreground">Pulse</p>
+        <PulseLogo />
         <h1 className="mt-2 font-heading text-2xl font-semibold tracking-tight">You are signed in</h1>
         <p className="mt-1 text-sm break-all text-muted-foreground">{user.email}</p>
       </header>
