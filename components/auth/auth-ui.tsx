@@ -40,11 +40,16 @@ export function LinkButton({
  * The page heading (Spine's AuthHeader): the Pulse logo (mark + word), a big
  * title and a gray line under it.
  */
-export function AuthHeader({ title, subtitle }: { title: string; subtitle?: ReactNode }) {
+export function AuthHeader({ title, subtitle, icon }: { title: string; subtitle?: ReactNode; icon?: ReactNode }) {
   return (
     <header className="flex flex-col items-center text-center">
       <PulseLogo />
-      <h1 className="mt-10 font-heading text-[1.8125rem] leading-tight font-medium">{title}</h1>
+      {icon && (
+        <div aria-hidden className="mt-11 grid size-[76px] place-items-center rounded-[26px] bg-(--sp-panel)">
+          {icon}
+        </div>
+      )}
+      <h1 className={cn("font-heading text-[1.8125rem] leading-tight font-medium", icon ? "mt-[22px]" : "mt-10")}>{title}</h1>
       {subtitle && <p className="mt-2 text-[0.8125rem] leading-snug text-(--sp-text-muted)">{subtitle}</p>}
     </header>
   )

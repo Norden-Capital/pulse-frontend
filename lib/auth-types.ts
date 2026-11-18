@@ -48,6 +48,8 @@ export const PASSKEY_NAME_MAX = 60;
 // Guest-only pages: only for people NOT signed in (proxy.ts and the (auth)
 // layout send a signed-in user to "/"). Everything else is private.
 export const GUEST_ONLY_PATHS = [
+  "/welcome",
+  "/start",
   "/login",
   "/register",
   "/register-done",

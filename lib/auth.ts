@@ -7,6 +7,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { backendFetch } from "./backend"
 import { SESSION_COOKIE_NAME, type CurrentUser } from "./auth-types"
+import { signedOutTarget, WELCOME_SEEN_COOKIE } from "./onboarding/routing"
 
 /** How long a server render waits for the backend before showing its error state. */
 const SERVER_TIMEOUT_MS = 15_000
@@ -31,9 +32,9 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   return { id: String(user.id), email: user.email }
 })
 
-/** The signed-in user; without one, redirect to /login (coming back to `nextPath` after). */
+/** The signed-in user; without one, redirect to /welcome or /login (coming back to `nextPath` after). */
 export async function requireUser(nextPath = "/"): Promise<CurrentUser> {
   const user = await getCurrentUser()
-  if (!user) redirect(nextPath === "/" ? "/login" : `/login?next=${encodeURIComponent(nextPath)}`)
+  if (!user) redirect(signedOutTarget(nextPath, (await cookies()).has(WELCOME_SEEN_COOKIE)))
   return user
 }

@@ -21,14 +21,14 @@ describe("safeNextPath", () => {
 
 describe("isGuestPath", () => {
   it("matches the auth pages and below them", () => {
-    for (const path of ["/login", "/register", "/register-done", "/verify-email", "/forgot-password", "/set-password"]) {
+    for (const path of ["/welcome", "/start/goal", "/start/plan", "/login", "/register", "/register-done", "/verify-email", "/forgot-password", "/set-password"]) {
       expect(isGuestPath(path), path).toBe(true)
     }
     expect(isGuestPath("/login/extra")).toBe(true)
   })
 
   it("does not match private pages or look-alikes", () => {
-    for (const path of ["/", "/settings/security", "/loginx", "/registered"]) {
+    for (const path of ["/", "/settings/security", "/loginx", "/registered", "/welcomed", "/starter"]) {
       expect(isGuestPath(path), path).toBe(false)
     }
   })

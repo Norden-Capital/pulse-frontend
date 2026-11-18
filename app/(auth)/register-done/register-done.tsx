@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useSyncExternalStore } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 import { api, errorMessage } from "@/lib/api"
 import { readPendingEmail } from "@/components/auth/pending-email"
 import { AuthHeader, BIG, Field, LinkButton, Notice } from "@/components/auth/auth-ui"
+import { CheckIcon, MailIcon } from "@/components/onboarding/icons"
+import { clearDraft, readPlanSaved } from "@/components/onboarding/use-draft"
 
 const noSubscribe = () => () => {}
 
@@ -15,6 +17,12 @@ const noSubscribe = () => () => {}
 export function RegisterDone() {
   // sessionStorage exists only in the browser; the server renders "unknown".
   const remembered = useSyncExternalStore(noSubscribe, readPendingEmail, () => null)
+  // Came from "Save your plan": the plan went with the register request.
+  const planSaved = useSyncExternalStore(noSubscribe, readPlanSaved, () => false)
+  // The answers are on the server now; forget this tab's copy (health data).
+  useEffect(() => {
+    if (planSaved) clearDraft()
+  }, [planSaved])
   const [typed, setTyped] = useState("")
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle")
   const [error, setError] = useState<string | null>(null)
@@ -37,8 +45,9 @@ export function RegisterDone() {
   }
 
   return (
-    <div>
+    <div className="flex flex-1 flex-col justify-center">
       <AuthHeader
+        icon={<MailIcon />}
         title="Check your inbox"
         subtitle={
           remembered ? (
@@ -51,12 +60,20 @@ export function RegisterDone() {
           )
         }
       />
-      <form onSubmit={resend} className="mt-8 space-y-4">
+      {planSaved && (
+        <div className="mt-7 flex gap-2.5 rounded-2xl bg-(--sp-panel) px-3.5 py-3 text-xs leading-normal text-(--sp-text-2)">
+          <span className="mt-px shrink-0">
+            <CheckIcon />
+          </span>
+          <span>Your plan is saved. It is waiting for you after you sign in.</span>
+        </div>
+      )}
+      <form onSubmit={resend} className="mt-4 space-y-4">
         {error && <Notice tone="danger">{error}</Notice>}
         {state === "sent" && (
           <Notice tone="success">If this email is waiting for confirmation, a new link is on its way.</Notice>
         )}
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm leading-normal text-muted-foreground">
           No email after a few minutes? Check your spam folder, or send it again. The link works for 1 day.
         </p>
         {!remembered && (

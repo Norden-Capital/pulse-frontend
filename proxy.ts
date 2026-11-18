@@ -1,10 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { backendFetch } from "@/lib/backend"
 import { isGuestPath, SESSION_COOKIE_NAME } from "@/lib/auth-types"
+import { signedOutTarget, WELCOME_SEEN_COOKIE } from "@/lib/onboarding/routing"
 
 // First guard (Next 16 "proxy", formerly middleware), as in Spine:
-// - guest-only pages (/login, /register, …): a signed-in user goes to "/".
-// - private pages (everything else): signed out → /login, keeping the wanted path.
+// - guest-only pages (/welcome, /start/…, /login, …): a signed-in user goes to "/".
+// - private pages (everything else): signed out → /welcome on the first visit
+//   on this device, else /login, keeping the wanted path (lib/onboarding/routing.ts).
 // The layouts check again ((app)/layout.tsx, (auth)/layout.tsx), and the
 // backend is the final guard. The /api proxy is excluded by the matcher, so
 // request bodies are never buffered here.
@@ -43,11 +45,8 @@ export async function proxy(request: NextRequest) {
   }
 
   const wanted = pathname + search
-  const toLogin = () => {
-    const url = new URL("/login", request.url)
-    if (wanted !== "/") url.searchParams.set("next", wanted)
-    return NextResponse.redirect(url)
-  }
+  const toLogin = () =>
+    NextResponse.redirect(new URL(signedOutTarget(wanted, request.cookies.has(WELCOME_SEEN_COOKIE)), request.url))
 
   if (!hasCookie) return toLogin()
 

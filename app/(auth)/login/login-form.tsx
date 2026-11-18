@@ -151,8 +151,9 @@ export function LoginForm({ next, notice }: { next: string; notice: "password-se
       </form>
       <p className="mt-8 text-center text-sm text-muted-foreground">
         New to Pulse?{" "}
-        <Link href="/register" className="font-medium text-primary underline-offset-4 hover:underline">
-          Create an account
+        {/* New accounts start with the onboarding questions; the account is made at the end. */}
+        <Link href="/start/goal" className="font-medium text-primary underline-offset-4 hover:underline">
+          Get started
         </Link>
       </p>
     </div>

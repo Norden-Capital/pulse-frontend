@@ -44,6 +44,14 @@ const nextConfig: NextConfig = {
       })),
     ];
   },
+  // The old standalone sign-up page: new accounts now start with the
+  // onboarding questions, and the account is made at the end ("Save your plan").
+  redirects() {
+    return [
+      { source: "/register", destination: "/start/goal", permanent: false },
+      { source: "/start", destination: "/start/goal", permanent: false },
+    ];
+  },
   // No rewrites: /api/* is forwarded by the Route Handler in
   // app/api/[...path]/route.ts, which adds the proxy secret (a rewrite cannot
   // add request headers).
