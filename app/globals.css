@@ -1,13 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+/* Spine UI theme: --sp-* tokens, light/dark from the system setting. */
+@import "./tokens.css";
 
-@custom-variant dark (&:is(.dark *));
+/* `dark:` utilities follow the system setting, like the tokens. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  /* Poppins: Spine's app font (set by next/font in app/layout.tsx). */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -48,73 +52,43 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* shadcn's colours, mapped onto the Spine tokens. The tokens switch for
+   dark mode themselves, so one set covers both. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: var(--sp-bg);
+  --foreground: var(--sp-text);
+  --card: var(--sp-panel);
+  --card-foreground: var(--sp-text);
+  --popover: var(--sp-sheet);
+  --popover-foreground: var(--sp-text);
+  --primary: var(--sp-chip-active);
+  --primary-foreground: var(--sp-chip-active-text);
+  /* Spine's soft second action: the text colour at 7%. */
+  --secondary: color-mix(in oklab, var(--sp-text) 7%, transparent);
+  --secondary-foreground: var(--sp-text);
+  --muted: var(--sp-input);
+  --muted-foreground: var(--sp-text-muted);
+  --accent: var(--sp-input-hover);
+  --accent-foreground: var(--sp-text);
+  --destructive: var(--sp-danger);
+  --border: var(--sp-divider);
+  --input: var(--sp-input);
+  --ring: var(--sp-ring);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --radius: 0.875rem;
+  --sidebar: var(--sp-panel);
+  --sidebar-foreground: var(--sp-text);
+  --sidebar-primary: var(--sp-chip-active);
+  --sidebar-primary-foreground: var(--sp-chip-active-text);
+  --sidebar-accent: var(--sp-input-hover);
+  --sidebar-accent-foreground: var(--sp-text);
+  --sidebar-border: var(--sp-divider);
+  --sidebar-ring: var(--sp-ring);
+  color-scheme: light dark;
 }
 
 @layer base {
@@ -126,5 +100,33 @@
   }
   html {
     @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* iPhone notch and home bar (viewport-fit=cover): keep content inside the
+   safe area. The body background still fills the whole screen. (Spine) */
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+/* Full-height pages (min-h-svh) fit inside that padding, so a short page
+   does not scroll just because of the notch / home bar. */
+.min-h-svh {
+  min-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+/* Page background (light #EEEEEE, dark black), also under the safe areas.
+   Not in a layer, so it wins over bg-background. */
+body {
+  background-color: var(--sp-bg);
+}
+
+/* Phones zoom in on inputs under 16px: keep form fields at 16px or more.
+   Not in a layer, so it wins over utility classes. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
 }

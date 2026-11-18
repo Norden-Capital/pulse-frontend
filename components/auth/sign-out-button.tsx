@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { api } from "@/lib/api"
-import { BIG } from "./auth-ui"
+import { BIG, PILL } from "./auth-ui"
 
 /** "Sign out" with a confirm first (Spine): a tap by mistake must not end the session. */
 export function SignOutButton() {
@@ -44,10 +44,10 @@ export function SignOutButton() {
             <DialogDescription>You will need to sign in again on this device.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" className="h-11 sm:h-9" onClick={() => setOpen(false)} disabled={pending}>
+            <Button variant="secondary" className={PILL} onClick={() => setOpen(false)} disabled={pending}>
               Cancel
             </Button>
-            <Button variant="destructive" className="h-11 sm:h-9" onClick={signOut} disabled={pending}>
+            <Button variant="destructive" className={PILL} onClick={signOut} disabled={pending}>
               {pending ? "Signing out…" : "Sign out"}
             </Button>
           </DialogFooter>

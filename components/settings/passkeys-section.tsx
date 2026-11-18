@@ -24,7 +24,7 @@ import {
   passkeysSupported,
   toCreationOptions,
 } from "@/lib/passkeys"
-import { BIG, Field, Notice } from "@/components/auth/auth-ui"
+import { BIG, Field, Notice, PILL } from "@/components/auth/auth-ui"
 import { LocalDate } from "./local-date"
 
 type Message = { tone: "success" | "danger"; text: string }
@@ -70,7 +70,7 @@ export function PasskeysSection({ passkeys }: { passkeys: Passkey[] | null }) {
         ) : passkeys.length === 0 ? (
           <p className="rounded-lg bg-muted px-4 py-3 text-center text-sm text-muted-foreground">No passkeys yet.</p>
         ) : (
-          <ul className="divide-y rounded-lg ring-1 ring-foreground/10">
+          <ul className="divide-y rounded-[16px] bg-muted">
             {passkeys.map((p) => (
               <li key={p.id} className="flex items-center gap-2 py-2 pr-1 pl-4">
                 <div className="min-w-0 flex-1">
@@ -300,10 +300,10 @@ function RemoveDialog({
           <DialogDescription>You can&apos;t sign in with it anymore. Your password still works.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" className="h-11 sm:h-9" onClick={onClose} disabled={pending}>
+          <Button variant="secondary" className={PILL} onClick={onClose} disabled={pending}>
             Cancel
           </Button>
-          <Button variant="destructive" className="h-11 sm:h-9" onClick={remove} disabled={pending}>
+          <Button variant="destructive" className={PILL} onClick={remove} disabled={pending}>
             {pending ? "Removing…" : "Remove"}
           </Button>
         </DialogFooter>

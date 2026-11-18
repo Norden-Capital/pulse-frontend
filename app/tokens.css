@@ -1,0 +1,75 @@
+/*
+ * Spine UI theme for Pulse: the --sp-* tokens of Spine's UI kit
+ * (spine-frontend/components/spine-ui/tokens.css), only the ones the
+ * current pages use. Same values as Spine.
+ *
+ * Light / dark: Spine switches with a saved user preference (.dark on
+ * <html>). Pulse has no preferences yet, so it follows the system setting.
+ * When preferences arrive, swap the media query for a class.
+ */
+
+:root {
+  /* Surfaces */
+  --sp-bg: #eeeeee; /* page background */
+  --sp-panel: #ffffff; /* cards */
+  --sp-soft: #f0f0f0;
+  /* Inputs: see-through fill, no border; reads on the page and in sheets. */
+  --sp-input: rgb(0 0 0 / 0.06);
+  --sp-input-hover: rgb(0 0 0 / 0.09);
+  --sp-input-placeholder: #636363;
+  --sp-divider: rgb(0 0 0 / 0.08);
+
+  /* Text */
+  --sp-text: #000000;
+  --sp-text-2: #3a3a3a;
+  --sp-text-muted: #6b6b6b;
+  --sp-text-faint: #8f8f8f;
+
+  /* Main action: black pill (light), white pill (dark). */
+  --sp-chip-active: #000000;
+  --sp-chip-active-text: #ffffff;
+
+  /* Status */
+  --sp-success: #137333;
+  --sp-warning: #d97706;
+  --sp-danger: #dc2626;
+
+  /* Sheets and dialogs */
+  --sp-sheet: #ffffff;
+  --sp-backdrop: rgb(0 0 0 / 0.35);
+
+  /* Accent (Spine's violet): focus rings only for now. */
+  --sp-card-front: #9b40da;
+  --sp-ring: color-mix(in oklab, var(--sp-card-front) 55%, transparent);
+
+  /* Sizes (CSS px), measured in Spine */
+  --sp-gutter: 18px; /* page side padding */
+  --sp-radius: 22px; /* cards and panels */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sp-bg: #000000;
+    --sp-panel: #171717;
+    --sp-soft: #000000;
+    --sp-input: rgb(255 255 255 / 0.1);
+    --sp-input-hover: rgb(255 255 255 / 0.14);
+    --sp-input-placeholder: #9a9a9a;
+    --sp-divider: rgb(255 255 255 / 0.1);
+
+    --sp-text: #ffffff;
+    --sp-text-2: #d0d0d0;
+    --sp-text-muted: #8a8a8a;
+    --sp-text-faint: #6e6e6e;
+
+    --sp-chip-active: #ffffff;
+    --sp-chip-active-text: #000000;
+
+    --sp-success: #4ade80;
+    --sp-warning: #fbbf24;
+    --sp-danger: #f87171;
+
+    --sp-sheet: #171717;
+    --sp-backdrop: rgb(0 0 0 / 0.7);
+  }
+}

@@ -18,7 +18,7 @@ export default async function AuthLayout({ children }: LayoutProps<"/">) {
   if (user) redirect("/")
 
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-sm flex-col px-4 pt-12 pb-8 [padding-bottom:max(2rem,env(safe-area-inset-bottom))]">
+    <main className="mx-auto flex min-h-svh w-full max-w-[430px] flex-col px-(--sp-gutter) pt-10 pb-8">
       {children}
     </main>
   )

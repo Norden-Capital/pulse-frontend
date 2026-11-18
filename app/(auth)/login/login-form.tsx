@@ -87,7 +87,7 @@ export function LoginForm({ next, notice }: { next: string; notice: "password-se
                 )}
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="secondary"
                   className={BIG}
                   onClick={resend}
                   disabled={unverified.resend === "sending"}
@@ -134,7 +134,7 @@ export function LoginForm({ next, notice }: { next: string; notice: "password-se
             <OrDivider />
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               className={BIG}
               onClick={() => {
                 setError(null)

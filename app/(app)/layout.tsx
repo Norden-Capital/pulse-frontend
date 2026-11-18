@@ -12,7 +12,7 @@ export const instant = false
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   await requireUser(safeNextPath((await headers()).get("x-pulse-path")))
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-lg flex-col px-4 pt-6 pb-8 [padding-bottom:max(2rem,env(safe-area-inset-bottom))]">
+    <main className="mx-auto flex min-h-svh w-full max-w-2xl flex-col px-(--sp-gutter) pt-6 pb-8">
       {children}
     </main>
   )

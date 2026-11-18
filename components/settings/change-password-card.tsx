@@ -26,7 +26,7 @@ export function ChangePasswordCard() {
       <CardContent className="space-y-3">
         {done && <Notice tone="success">Password changed. Your other devices are signed out.</Notice>}
         <Button
-          variant="outline"
+          variant="secondary"
           className={BIG}
           onClick={() => {
             setDone(false)

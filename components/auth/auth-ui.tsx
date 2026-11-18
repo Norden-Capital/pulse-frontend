@@ -1,26 +1,31 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
+import { Heart } from "lucide-react"
 import { cn } from "cn"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 // Small parts shared by the sign-in, register and password pages, and by
-// Settings → Security. Phone first: 44 px tall controls, 16 px text in inputs
-// (no iOS zoom).
+// Settings → Security. Spine's look (components/spine-ui in Spine): pill
+// buttons, filled inputs without a border, 16 px text in inputs (no iOS zoom).
 
-/** Classes for a full-width, 44 px tall button or link. */
-export const BIG = "h-11 w-full text-sm"
+/** Spine pill button, "md" size (44 px): dialogs and small actions. */
+export const PILL =
+  "h-11 rounded-full px-[18px] text-[13px] font-medium active:scale-[0.97] motion-reduce:active:scale-100 [&_svg:not([class*='size-'])]:size-[18px]"
+
+/** Spine pill button, "lg" size (52 px), full width: the main actions of a form. */
+export const BIG = cn(PILL, "h-[52px] w-full px-6 text-[14px]")
 
 /** A <Link> that looks like a button (Base UI's Button renders a <button>). */
 export function LinkButton({
   href,
-  variant = "outline",
+  variant = "secondary",
   className,
   children,
 }: {
   href: string
-  variant?: "default" | "outline" | "ghost" | "link"
+  variant?: "default" | "secondary" | "ghost" | "link"
   className?: string
   children: ReactNode
 }) {
@@ -31,13 +36,23 @@ export function LinkButton({
   )
 }
 
-/** The page heading: the word "Pulse", a title and a short line under it. */
+/**
+ * The page heading (Spine's AuthHeader): the Pulse logo in a 52 px rounded
+ * tile, a big title and a gray line under it. The logo is lucide's heart, the
+ * same glyph as the app icon in public/.
+ */
 export function AuthHeader({ title, subtitle }: { title: string; subtitle?: ReactNode }) {
   return (
-    <header className="text-center">
-      <p className="text-sm font-semibold tracking-wide text-muted-foreground">Pulse</p>
-      <h1 className="mt-6 font-heading text-2xl font-semibold tracking-tight">{title}</h1>
-      {subtitle && <p className="mt-2 text-sm leading-snug text-muted-foreground">{subtitle}</p>}
+    <header className="flex flex-col items-center text-center">
+      <span
+        role="img"
+        aria-label="Pulse"
+        className="flex size-[52px] items-center justify-center rounded-[14px] bg-(--sp-panel) text-(--sp-text)"
+      >
+        <Heart aria-hidden className="size-6" strokeWidth={1.9} />
+      </span>
+      <h1 className="mt-10 font-heading text-[1.8125rem] leading-tight font-medium">{title}</h1>
+      {subtitle && <p className="mt-2 text-[0.8125rem] leading-snug text-(--sp-text-muted)">{subtitle}</p>}
     </header>
   )
 }
@@ -56,10 +71,11 @@ export function Notice({
     <div
       role={tone === "danger" ? "alert" : "status"}
       className={cn(
-        "rounded-lg px-4 py-3 text-sm leading-snug",
-        tone === "danger" && "bg-destructive/10 text-destructive",
-        tone === "success" && "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-        tone === "info" && "bg-muted text-foreground",
+        // Spine's Notice: a soft tint of the status colour on the panel colour.
+        "rounded-[16px] px-4 py-[14px] text-[0.8125rem] leading-snug",
+        tone === "danger" && "bg-[color-mix(in_oklab,var(--sp-danger)_12%,var(--sp-panel))] text-(--sp-danger)",
+        tone === "success" && "bg-[color-mix(in_oklab,var(--sp-success)_12%,var(--sp-panel))] text-(--sp-success)",
+        tone === "info" && "bg-(--sp-panel) text-(--sp-text)",
         className
       )}
     >
@@ -67,6 +83,12 @@ export function Notice({
     </div>
   )
 }
+
+/** Spine's input: 52 px, see-through fill, no border, violet focus ring, red when invalid. */
+const INPUT =
+  "h-[52px] rounded-[16px] border-0 bg-(--sp-input) px-4 text-(--sp-text) hover:bg-(--sp-input-hover) " +
+  "placeholder:text-(--sp-input-placeholder) focus-visible:border-0 focus-visible:ring-2 focus-visible:ring-(--sp-card-front) " +
+  "aria-invalid:ring-2 aria-invalid:ring-(--sp-danger) dark:bg-(--sp-input) md:text-base"
 
 /** Label, input, then a hint or an error line under it. */
 export function Field({
@@ -86,23 +108,19 @@ export function Field({
   const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined
   return (
     <div className="space-y-2">
-      <div className="flex min-h-5 items-center justify-between gap-2">
-        <Label htmlFor={id}>{label}</Label>
+      <div className="flex min-h-5 items-center justify-between gap-2 px-1">
+        <Label htmlFor={id} className="text-[0.8125rem]">
+          {label}
+        </Label>
         {aside}
       </div>
-      <Input
-        id={id}
-        className="h-11 text-base"
-        aria-invalid={Boolean(error) || undefined}
-        aria-describedby={describedBy}
-        {...input}
-      />
+      <Input id={id} className={INPUT} aria-invalid={Boolean(error) || undefined} aria-describedby={describedBy} {...input} />
       {error ? (
-        <p id={`${id}-error`} className="text-xs text-destructive">
+        <p id={`${id}-error`} className="px-1 text-[0.6875rem] leading-snug text-(--sp-danger)">
           {error}
         </p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="text-xs text-muted-foreground">
+        <p id={`${id}-hint`} className="px-1 text-[0.6875rem] leading-snug text-(--sp-text-muted)">
           {hint}
         </p>
       ) : null}
@@ -113,10 +131,10 @@ export function Field({
 /** "or" line between the password form and the Face ID button. */
 export function OrDivider() {
   return (
-    <div className="flex items-center gap-3 text-xs text-muted-foreground" aria-hidden>
-      <span className="h-px flex-1 bg-border" />
+    <div className="flex items-center gap-3 text-[0.6875rem] text-(--sp-text-faint)" aria-hidden>
+      <span className="h-px flex-1 bg-[color-mix(in_oklab,var(--sp-text)_10%,transparent)]" />
       or
-      <span className="h-px flex-1 bg-border" />
+      <span className="h-px flex-1 bg-[color-mix(in_oklab,var(--sp-text)_10%,transparent)]" />
     </div>
   )
 }

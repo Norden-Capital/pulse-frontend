@@ -73,7 +73,7 @@ export function RegisterDone() {
             onChange={(e) => setTyped(e.target.value)}
           />
         )}
-        <Button type="submit" variant="outline" className={BIG} disabled={state === "sending" || !email}>
+        <Button type="submit" variant="secondary" className={BIG} disabled={state === "sending" || !email}>
           {state === "sending" ? "Sending…" : "Resend email"}
         </Button>
         <LinkButton href="/login" variant="default">

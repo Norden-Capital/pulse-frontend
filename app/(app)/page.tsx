@@ -30,7 +30,7 @@ export default async function HomePage() {
 
       <Link
         href="/settings/security"
-        className="flex min-h-14 items-center gap-3 rounded-xl px-4 ring-1 ring-foreground/10 transition-colors hover:bg-muted"
+        className="flex min-h-14 items-center gap-3 rounded-(--sp-radius) bg-card px-4 transition-colors hover:bg-accent"
       >
         <ShieldCheck className="size-5 text-muted-foreground" aria-hidden />
         <span className="flex-1">
