@@ -123,6 +123,37 @@ body {
   background-color: var(--sp-bg);
 }
 
+/* Welcome collage marquee (components/onboarding/welcome-screen.tsx): each
+   column moves one period of tiles and starts again; the photos repeat every
+   period, so the loop has no jump. "down" columns play it in reverse. */
+@keyframes collage-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-1 * var(--collage-period)));
+  }
+}
+.collage-column {
+  animation: collage-scroll 36s linear infinite;
+  will-change: transform;
+}
+.collage-column[data-direction="down"] {
+  animation-direction: reverse;
+}
+/* Reduced motion: hide the moving collage and show the static one instead. */
+.collage-static {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .collage-moving {
+    display: none;
+  }
+  .collage-static {
+    display: block;
+  }
+}
+
 /* Phones zoom in on inputs under 16px: keep form fields at 16px or more.
    Not in a layer, so it wins over utility classes. */
 input,
